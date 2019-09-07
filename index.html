@@ -9,35 +9,60 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
+ <div id="app">
   <section class="section">
     <div class="container has-text-centered">
       <h1 class="title">
-        Global Chat
+        GLOBAL CHAT
       </h1>
       <p class="subtitle">
      Because talking to total strangers is a <strong>good</strong> idea!
       </p>
     </div>
   </section>
-     
-  <section class="section">
-  <div class="container">
-      <div class="box main-chat-window">
-          <div class="notification">
-          Hello world!
-            </div>
 
-      <div class="notification">
-          This are two chats
+  <section class="section" v-if="username ===''">
+     <div class="container">
+        <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input v-on:keyup.enter="saveUsername" v-model="unsavedUsername" class="input" type="text" placeholder="Enter your desired username">
             </div>
-        </div>
-  </div>
-<br/>
-
+          </div>
+     </div>
   
-    <div class="container">
-        <input class="input is-large" type="text" placeholder="Enter your message...">
-      </div>
   </section>
+     
+  <section class="section" v-else>
+    <div class="container">
+      <div class="box main-chat-window">
+        <div v-bind:class="{'is-primary': messageObject.username === username}"class="notification" v-for="messageObject in messages">
+        <p><strong> {{messageObject.username}}</strong></p> 
+        {{messageObject.message}}
+        </div>
+      </div>
+  
+      <br/>
+      
+        <p class="subtitle">
+          You are sending messages as <strong>{{username}}</strong>
+        </p>
+        <input v-model="newMessage" v-on:keyup.enter="enterNewMessage" class="input is-large" type="text" placeholder="Enter your message...">
+      </div>
+      <br>
+      <button class="button is-text" v-on:click="logout">
+        Reset Session
+      </button>
+    </div>
+  </section>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-firestore.js"></script>
+</body>
+<script src="firebase-config.js"></script>
+<script src="main.js"></script>
   </body>
 </html>
